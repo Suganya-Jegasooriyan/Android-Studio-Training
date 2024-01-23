@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">EmployeeRecyclerView</string>
+    <string name="name_input">Name</string>
+    <string name="enter_name">Enter name</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="enter_mobile_number_input">Enter Mobile Number</string>
+    <string name="Proceed">Proceed</string>
+    <string name="email_input">Email</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="address_input">Address</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="pincode_label">Pincode</string>
+    <string name="enter_pincode">Enter Pincode</string>
+    <string name="employee_application">Employee Application</string>
+</resources>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RetrofitSample</string>
+    <string name="body">body</string>
+    <string name="body_head">BODY :</string>
+    <string name="title">title</string>
+    <string name="title_head">TITLE :</string>
+    <string name="user_id">user_id</string>
+    <string name="user_id_head">USER ID :</string>
+    <string name="id_head">ID :</string>
+    <string name="id">id</string>
+</resources>

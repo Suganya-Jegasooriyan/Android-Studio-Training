@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EmployeeApp</string>
+    <string name="name">Name:</string>
+    <string name="mobilenumber">Mobile Number</string>
+    <string name="mail">Mail</string>
+    <string name="address">Address</string>
+    <string name="pincode">Pincode</string>
+    <string name="submit">Submit</string>
+</resources>
