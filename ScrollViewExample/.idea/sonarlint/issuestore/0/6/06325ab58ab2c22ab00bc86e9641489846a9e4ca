@@ -1,0 +1,9 @@
+
+\kotlin:S1172&"=Use "_" instead of this unused lambda parameter "DatePicker".(ÿ¯Ÿî8­™ÁÏ1
+lkotlin:S117&"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ÿ¯Ÿî8¸™ÁÏ1
+>kotlin:S1128"Remove this unused import.(±Ÿ¿‹úÿÿÿÿ8Ã™ÁÏ1
+9kotlin:S1128	"Remove this unused import.(´Ùí8Ã™ÁÏ1
+Kkotlin:S65182",Replace function call with indexed accessor.(ÂÅÚæ8È™ÁÏ1
+Pkotlin:S65183",Replace function call with indexed accessor.(ŒŞÄ­şÿÿÿÿ8È™ÁÏ1
+Kkotlin:S65184",Replace function call with indexed accessor.(ÒÇú‘8É™ÁÏ1
+Pkotlin:S6518*",Replace function call with indexed accessor.( ÑÒÀøÿÿÿÿ8É™ÁÏ1

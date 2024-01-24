@@ -1,5 +1,6 @@
 package com.example.retrofitsample
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class RecyclerViewAdapter(private var body: List<MyDataItem>?) :
+class RecyclerViewAdapter(private var body: List<MyDataItem>?, private val listener : RecyclerViewAdapter.OnClick) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,5 +34,12 @@ class RecyclerViewAdapter(private var body: List<MyDataItem>?) :
         holder.tvUserId.text = userModel.userId.toString()
         holder.tvTitle.text = userModel.title
         holder.tvBody.text = userModel.body
+        holder.tvBody.setOnClickListener {
+            listener.passData(holder.tvBody.text.toString(), holder.tvTitle.text.toString())
+        }
+    }
+
+    interface  OnClick{
+        fun passData(data:String, tit:String)
     }
 }
