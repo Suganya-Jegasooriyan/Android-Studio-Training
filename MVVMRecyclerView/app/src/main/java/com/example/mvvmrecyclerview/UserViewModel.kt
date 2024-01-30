@@ -7,25 +7,26 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
-    private var dataList  = MutableLiveData<List<UserItem>>()
+class UserViewModel : ViewModel() {
+    private var userItemListLiveData = MutableLiveData<List<UserItem>>()
+
     init {
-        dataList = MutableLiveData()
+        userItemListLiveData = MutableLiveData()
     }
 
-    fun getLiveDataObserver() : MutableLiveData<List<UserItem>> {
-        return dataList
+    fun getLiveDataObserver(): MutableLiveData<List<UserItem>> {
+        return userItemListLiveData
     }
-    fun makeAPICall(){
+
+    fun makeAPICall() {
         val retroInstance = RetrofitHelper.getInstance()
         val api = retroInstance.create(UserApiInterface::class.java)
-        api.getData().enqueue(object : Callback<List<UserItem>?> {
+        api.getUserItem().enqueue(object : Callback<List<UserItem>?> {
             override fun onResponse(
                 call: Call<List<UserItem>?>,
                 response: Response<List<UserItem>?>
             ) {
-                val list = response.body()
-                dataList.postValue(list)
+                userItemListLiveData.value = response.body()
             }
 
             override fun onFailure(call: Call<List<UserItem>?>, t: Throwable) {
