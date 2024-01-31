@@ -13,6 +13,7 @@ class UserListAdapter(private val communicator: Communicator) :
     fun setUserItemList(userItemList: List<UserItem>?) {
         this.userItemList = userItemList
     }
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvId: TextView = view.findViewById(R.id.tv_id)
         val tvUserId: TextView = view.findViewById(R.id.tv_user_id)
@@ -32,12 +33,12 @@ class UserListAdapter(private val communicator: Communicator) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val userItemModel: UserItem = userItemList!![position]
-        holder.tvId.text = userItemModel.id.toString()
+        holder.tvId.text = userItemModel.id.toInt().toString()
         holder.tvUserId.text = userItemModel.userId.toString()
         holder.tvTitle.text = userItemModel.title
         holder.tvBody.text = userItemModel.body
         holder.tvBody.setOnClickListener {
-            communicator.passData(holder.tvTitle.text.toString(), holder.tvBody.text.toString())
+            communicator.passData(holder.tvId.text.toString())
         }
     }
 }

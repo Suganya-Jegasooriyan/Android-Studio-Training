@@ -8,40 +8,46 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.Exception
 
 class UserActivity : AppCompatActivity(), Communicator {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var rvUserList: RecyclerView
+    private lateinit var userListViewModel: UserListViewModel
+    private lateinit var userListAdapter: UserListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        userListViewModel = ViewModelProvider(this)[UserListViewModel::class.java]
         setAdapterForList()
+        getUserItemData()
     }
 
     private fun setAdapterForList() {
-        recyclerView = findViewById(R.id.recyclerview)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val userListAdapter = UserListAdapter(this@UserActivity)
-        val userViewModel: UserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        getUserItemData(userListAdapter, userViewModel)
+        rvUserList = findViewById(R.id.recyclerview)
+        rvUserList.layoutManager = LinearLayoutManager(this)
+        userListAdapter = UserListAdapter(this@UserActivity)
     }
 
-    private fun getUserItemData(userListAdapter: UserListAdapter, userViewModel: UserViewModel) {
-        userViewModel.getLiveDataObserver().observe(this, Observer {
-            if (it.isNotEmpty()) {
-                recyclerView.adapter = userListAdapter
-                userListAdapter.setUserItemList(it)
-            } else {
-                Toast.makeText(this, "Error in getting List", Toast.LENGTH_SHORT).show()
+    private fun getUserItemData() {
+        userListViewModel.setUserListLiveData()
+        userListViewModel.getPostListLiveData().observe(this, Observer {
+            try {
+                if (it.isNotEmpty()) {
+                    rvUserList.adapter = userListAdapter
+                    userListAdapter.setUserItemList(it)
+                } else {
+                    Toast.makeText(this, "Error in getting List", Toast.LENGTH_SHORT).show()
+                }
+            } catch ( e : Exception) {
+                println(e.message)
             }
         })
-        userViewModel.makeAPICall()
     }
 
-    override fun passData(title: String, body: String) {
+    override fun passData(id: String) {
         val intent = Intent(this, DisplayDetailsActivity::class.java)
-        intent.putExtra("title", title)
-        intent.putExtra("body", body)
+        intent.putExtra("id", id)
         startActivity(intent)
     }
 }
