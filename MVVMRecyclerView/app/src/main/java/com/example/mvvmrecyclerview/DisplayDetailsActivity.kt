@@ -3,6 +3,7 @@ package com.example.mvvmrecyclerview
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
@@ -30,10 +31,15 @@ class DisplayDetailsActivity : AppCompatActivity() {
     private fun setUserItem() {
         userViewModel.setUserLiveData(id)
         userViewModel.getPostByIdLiveData().observe(this, Observer {
-            tvId.text = it.id.toString()
-            tvUserId.text = it.userId.toString()
-            tvTitle.text = it.title
-            tvBody.text = it.body
+            if (it.success != null) {
+                tvId.text = it.success.id.toString()
+                tvUserId.text = it.success.userId.toString()
+                tvTitle.text = it.success.title
+                tvBody.text = it.success.body
+            }
+            if (it.error != null) {
+                Toast.makeText(this, "Something Not Found" + it.error, Toast.LENGTH_SHORT).show()
+            }
         })
     }
 }

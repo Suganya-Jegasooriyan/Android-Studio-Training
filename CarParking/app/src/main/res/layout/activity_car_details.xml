@@ -4,82 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CarDetails">
+    tools:context=".CarDetailsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/carDetail_TitleBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="Car Details"
-        app:titleTextColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/baseline_arrow_back_ios_24"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:title="@string/title_car_details"
+        app:titleTextColor="@color/white" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/startGuideline"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="32dp"
-        />
-
-    <androidx.constraintlayout.widget.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/endGuideline"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="32dp"
-        />
+        app:layout_constraintGuide_begin="@dimen/car_details_guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/endGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/car_details_guideline" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilCarNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/carDetail_TitleBar"
-        app:errorEnabled="true"
-        app:errorTextColor="@color/red"
+        android:layout_marginTop="10dp"
         app:endIconMode="clear_text"
-        app:counterEnabled="true"
-        app:layout_constraintStart_toStartOf="@id/startGuideline"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="@id/endGuideline"
-        >
+        app:layout_constraintStart_toStartOf="@id/startGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/carDetail_TitleBar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etCarNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/car_no"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilMobileNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tilCarNumber"
-        app:prefixText="+91"
+        app:counterMaxLength="10"
         app:endIconMode="clear_text"
-        app:layout_constraintStart_toStartOf="@id/startGuideline"
         app:layout_constraintEnd_toEndOf="@id/endGuideline"
-        >
+        app:layout_constraintStart_toStartOf="@id/startGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/tilCarNumber"
+        app:prefixText="+91">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etMobileNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/mobilenumber"
-            android:inputType="phone"/>
+            android:hint="@string/mobile_number"
+            android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/Submit_Button"
+        android:id="@+id/Check_In_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
-        app:layout_constraintTop_toBottomOf="@+id/tilMobileNumber"
+        android:text="@string/check_In"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilMobileNumber"
+        app:layout_constraintVertical_bias="0.1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

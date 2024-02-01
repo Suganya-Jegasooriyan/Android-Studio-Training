@@ -4,10 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class UserListViewModel : ViewModel() {
-    private val userItemListLiveData = MutableLiveData<List<UserItem>>()
+    private val userItemListLiveData = MutableLiveData<ApiResponse<List<UserItem>>>()
     private val userListRepository = UserItemRepository()
 
-    fun getPostListLiveData(): MutableLiveData<List<UserItem>> {
+    fun getPostListLiveData(): MutableLiveData<ApiResponse<List<UserItem>>> {
         return userItemListLiveData
     }
 

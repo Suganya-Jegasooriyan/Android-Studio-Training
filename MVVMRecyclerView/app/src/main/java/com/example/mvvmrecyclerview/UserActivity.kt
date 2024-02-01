@@ -31,18 +31,25 @@ class UserActivity : AppCompatActivity(), Communicator {
 
     private fun getUserItemData() {
         userListViewModel.setUserListLiveData()
-        userListViewModel.getPostListLiveData().observe(this, Observer {
-            try {
-                if (it.isNotEmpty()) {
-                    rvUserList.adapter = userListAdapter
-                    userListAdapter.setUserItemList(it)
-                } else {
-                    Toast.makeText(this, "Error in getting List", Toast.LENGTH_SHORT).show()
+        userListViewModel.getPostListLiveData().observe(
+            /* owner = */ this,
+            /* observer = */
+            Observer {
+                if (it.success != null) {
+                    if (it.success.isNotEmpty()) {
+                        rvUserList.adapter = userListAdapter
+                        userListAdapter.setUserItemList(it.success)
+                    } else {
+                        Toast.makeText(this, "Error in getting List", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            } catch ( e : Exception) {
-                println(e.message)
-            }
-        })
+                if (it.error != null) {
+                    Toast.makeText(this, "Something Not Found" + it.error,Toast.LENGTH_SHORT).show()
+                }
+
+
+            },
+        )
     }
 
     override fun passData(id: String) {
