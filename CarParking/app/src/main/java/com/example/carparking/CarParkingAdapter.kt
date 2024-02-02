@@ -12,7 +12,7 @@ import java.util.Locale
 class CarParkingAdapter(
     private val carParkingInterface: CarParkingInterface
 ) : RecyclerView.Adapter<CarParkingAdapter.ViewHolder>() {
-    private var carDetailList: MutableList<Car> = mutableListOf()
+    private var carDetailLists: MutableList<Car> = mutableListOf()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvCarNumber: TextView = view.findViewById(R.id.show_car_number)
@@ -29,11 +29,11 @@ class CarParkingAdapter(
     }
 
     override fun getItemCount(): Int {
-        return carDetailList.size
+        return carDetailLists.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val carDetails: Car = carDetailList[position]
+        val carDetails: Car = carDetailLists[position]
         holder.tvCarNumber.text = carDetails.carNumber
         holder.tvMobileNumber.text = carDetails.mobileNumber
         holder.tvSlotNumber.text = carDetails.slotNumber.toString()
@@ -49,13 +49,8 @@ class CarParkingAdapter(
         return date.format(checkIn)
     }
 
-    fun setCarList(carDetailList: MutableList<Car>, index: Int) {
-        this.carDetailList = carDetailList
-        notifyItemInserted(index)
-    }
-
-    fun setRemoveCarList(carDetailList: MutableList<Car>, index: Int) {
-        this.carDetailList = carDetailList
-        notifyItemRemoved(index)
+    fun setCarList(carDetailList: MutableList<Car>) {
+        this.carDetailLists = carDetailList
+        notifyDataSetChanged()
     }
 }

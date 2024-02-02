@@ -11,7 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class HomePageActivity : AppCompatActivity() {
 
     private val dbHandler = DBHelper(this)
-    private var carDetailList = mutableListOf<Car>()
+    private var carSlotNumberList = mutableListOf<Int>()
     private lateinit var carParkingAdapter: CarParkingAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,32 +20,33 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     private fun addCarDetails(carDetails: Car) {
-        this.carDetailList = dbHandler.readCarDetails()
         val nax = getNextAvailableSlot()
         if (nax == -1) {
-            carDetails.slotNumber = carDetailList.size + 1
+            carDetails.slotNumber = carSlotNumberList.size + 1
         } else {
             carDetails.slotNumber = nax
         }
-        val index = carDetails.slotNumber!! - 1
         dbHandler.insertCarDetails(carDetails)
-//        carDetailList.add(index, carDetails)
-        carParkingAdapter.setCarList(carDetailList, index)
+        sendCarDetailsToAdapter()
+    }
+
+    private fun sendCarDetailsToAdapter() {
+        val list: MutableList<Car> = dbHandler.getCarDetailsBySlotNumber()
+        carParkingAdapter.setCarList(list)
     }
 
     private fun getNextAvailableSlot(): Int {
-        carDetailList.forEachIndexed { index, car ->
-            if (car.slotNumber != index + 1) {
-                return index + 1
-            }
+        this.carSlotNumberList = dbHandler.readCarSlotNumber()
+        carSlotNumberList.forEachIndexed { index, slotNumber ->
+            if (slotNumber != index + 1) return index + 1
         }
         return -1
     }
 
     fun removeCar(car: Car) {
-        val index = carDetailList.indexOf(car)
-        carDetailList.removeAt(index)
-        carParkingAdapter.setRemoveCarList(carDetailList, index)
+        val slotNumber = car.slotNumber
+        dbHandler.removeCarDetails(slotNumber)
+        sendCarDetailsToAdapter()
     }
 
     private fun initView() {
