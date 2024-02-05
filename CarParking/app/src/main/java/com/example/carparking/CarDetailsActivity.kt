@@ -37,7 +37,7 @@ class CarDetailsActivity : AppCompatActivity() {
         btnCheckIn.setOnClickListener {
             val carNumber = etCarNumber.text.toString()
             val mobileNumber = etMobileNumber.text.toString()
-            isAllFieldsChecked = CheckAllFields(carNumber, mobileNumber)
+            isAllFieldsChecked = checkAllFields(carNumber, mobileNumber)
             val intent = Intent()
             if (isAllFieldsChecked) {
                 intent.putExtra(Constants.carNumber, carNumber)
@@ -48,7 +48,7 @@ class CarDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun CheckAllFields(carNumber: String, mobileNumber: String): Boolean {
+    private fun checkAllFields(carNumber: String, mobileNumber: String): Boolean {
 
         if (carNumber.isEmpty()) {
             tilCarNumber.error = Constants.carNumberRequired

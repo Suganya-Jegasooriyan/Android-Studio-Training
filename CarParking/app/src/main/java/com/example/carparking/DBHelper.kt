@@ -22,9 +22,9 @@ class DBHelper(context: Context) :
 
     override fun onCreate(db: SQLiteDatabase?) {
         val query = ("CREATE TABLE " + TABLE_NAME + " ("
-                + CAR_NUMBER + " TEXT PRIMARY KEY, " +
+                + CAR_NUMBER + " TEXT , " +
                 MOBILE_NUMBER + " INTEGER," +
-                SLOT_NUMBER + " INTEGER," +
+                SLOT_NUMBER + " INTEGER PRIMARY KEY," +
                 CHECK_IN + " LONG" + ")")
         db?.execSQL(query)
     }
@@ -41,10 +41,11 @@ class DBHelper(context: Context) :
         contentValue.put(MOBILE_NUMBER, carDetails.mobileNumber)
         contentValue.put(SLOT_NUMBER, carDetails.slotNumber)
         contentValue.put(CHECK_IN, carDetails.checkIn)
-        database.insertWithOnConflict(TABLE_NAME,null, contentValue,SQLiteDatabase.CONFLICT_IGNORE)
+        database.insert(TABLE_NAME, null, contentValue)
         database.close()
     }
 
+    @SuppressLint("Recycle")
     fun getCarDetailsBySlotNumber(): MutableList<Car> {
         val carDetailList = mutableListOf<Car>()
         val db = this.readableDatabase
