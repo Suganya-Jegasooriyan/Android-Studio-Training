@@ -40,7 +40,6 @@ class CheckOutDialogFragment : DialogFragment() {
             tvMobileNumber.text = bundle.mobileNumber
             tvSlotNumber.text = bundle.slotNumber.toString()
             tvCheckOutAmount.text = calculate().toString()
-            val checkInTime = bundle.checkIn
             val date = changeSimpleDateFormat(bundle.checkIn)
             tvCheckIn.text = date
         }

@@ -1,10 +1,16 @@
 package com.example.carparking
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 
-class HomePageViewModel(private val dbHelper: DBHelper) : ViewModel() {
+class HomePageViewModel(application: Application) : AndroidViewModel(application) {
 
+    private var carListRepository: CarRepository
     private var carSlotNumberList = mutableListOf<Int>()
+
+    init {
+        carListRepository = CarRepository(application.applicationContext)
+    }
     fun addCarDetails(carDetails: Car) {
         val nax = getNextAvailableSlot()
         if (nax == -1) {
@@ -12,25 +18,24 @@ class HomePageViewModel(private val dbHelper: DBHelper) : ViewModel() {
         } else {
             carDetails.slotNumber = nax
         }
-        dbHelper.insertCarDetails(carDetails)
-        sendCarDetailsToAdapter()
+        carListRepository.insertCarDetails(carDetails)
+
     }
 
     private fun getNextAvailableSlot(): Int {
-        this.carSlotNumberList = dbHelper.readCarSlotNumber()
+        this.carSlotNumberList = carListRepository.readCarSlotNumber()
         carSlotNumberList.forEachIndexed { index, slotNumber ->
             if (slotNumber != index + 1) return index + 1
         }
         return -1
     }
 
-    fun sendCarDetailsToAdapter(): MutableList<Car> {
-        return dbHelper.getCarDetailsBySlotNumber()
+    fun getCarDetails(): MutableList<Car> {
+        return carListRepository.getCarDetailsBySlotNumber()
     }
 
-    fun removeCar(car: Car) {
-        val slotNumber = car.slotNumber
-        dbHelper.removeCarDetails(slotNumber)
-        sendCarDetailsToAdapter()
+    fun removeCarDetails(carDetails: Car) {
+        val slotNumber = carDetails.slotNumber
+        carListRepository.removeCarDetailsBySlotNumber(slotNumber)
     }
 }

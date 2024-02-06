@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 
-class DBHelper(context: Context) :
+class CarRepository(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
@@ -30,27 +30,28 @@ class DBHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        println("================================onUpgrade()==========================")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
     }
 
     fun insertCarDetails(carDetails: Car) {
-        val database = this.writableDatabase
+        val dbCarDetails = this.writableDatabase
         val contentValue = ContentValues()
         contentValue.put(CAR_NUMBER, carDetails.carNumber)
         contentValue.put(MOBILE_NUMBER, carDetails.mobileNumber)
         contentValue.put(SLOT_NUMBER, carDetails.slotNumber)
         contentValue.put(CHECK_IN, carDetails.checkIn)
-        database.insert(TABLE_NAME, null, contentValue)
-        database.close()
+        dbCarDetails.insert(TABLE_NAME, null, contentValue)
+        dbCarDetails.close()
     }
 
     @SuppressLint("Recycle")
     fun getCarDetailsBySlotNumber(): MutableList<Car> {
         val carDetailList = mutableListOf<Car>()
-        val db = this.readableDatabase
+        val dbCarDetails = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME ORDER BY $SLOT_NUMBER"
-        val result = db.rawQuery(query, null)
+        val result = dbCarDetails.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
                 val carNo = result.getString(result.getColumnIndexOrThrow(CAR_NUMBER)).toString()
@@ -62,28 +63,29 @@ class DBHelper(context: Context) :
                 carDetailList.add(carDetail)
             } while (result.moveToNext())
         }
-        db.close()
+        dbCarDetails.close()
         return carDetailList
     }
 
-    fun removeCarDetails(slotNumber: Int?) {
-        val db = this.writableDatabase
-        db.delete(TABLE_NAME, "$SLOT_NUMBER =$slotNumber", null)
-        db.close()
+    fun removeCarDetailsBySlotNumber(slotNumber: Int?) {
+        val dbCarDetails = this.writableDatabase
+        dbCarDetails.delete(TABLE_NAME, "$SLOT_NUMBER =$slotNumber", null)
+        dbCarDetails.close()
     }
+
     @SuppressLint("Recycle")
     fun readCarSlotNumber(): MutableList<Int> {
         val carSlotNumberList = mutableListOf<Int>()
-        val db = this.readableDatabase
+        val dbCarDetails = this.readableDatabase
         val query = "SELECT $SLOT_NUMBER FROM $TABLE_NAME ORDER BY $SLOT_NUMBER ASC"
-        val result = db.rawQuery(query, null)
+        val result = dbCarDetails.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
                 val slotNumber = result.getString(result.getColumnIndexOrThrow(SLOT_NUMBER)).toInt()
                 carSlotNumberList.add(slotNumber)
             } while (result.moveToNext())
         }
-        db.close()
+        dbCarDetails.close()
         return carSlotNumberList
     }
 }

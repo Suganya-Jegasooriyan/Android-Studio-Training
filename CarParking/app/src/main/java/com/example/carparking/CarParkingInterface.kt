@@ -1,5 +1,5 @@
 package com.example.carparking
 
 interface CarParkingInterface {
-    fun onClick(car: Car)
+    fun passData(car: Car)
 }

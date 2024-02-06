@@ -40,7 +40,7 @@ class CarParkingAdapter(
         val date = changeSimpleDateFormat(carDetails.checkIn)
         holder.tvCheckInDateTime.text = date
         holder.btnCheckOut.setOnClickListener {
-            carParkingInterface.onClick(carDetails)
+            carParkingInterface.passData(carDetails)
         }
     }
 

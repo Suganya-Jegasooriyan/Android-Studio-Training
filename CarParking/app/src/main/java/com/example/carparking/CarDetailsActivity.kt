@@ -19,6 +19,7 @@ class CarDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_car_details)
         initView()
+        displayDetails()
     }
 
     private fun initView() {
@@ -30,7 +31,6 @@ class CarDetailsActivity : AppCompatActivity() {
         tilMobileNumber = findViewById(R.id.tilMobileNumber)
         etMobileNumber = findViewById(R.id.etMobileNumber)
         btnCheckIn = findViewById(R.id.Check_In_Button)
-        displayDetails()
     }
 
     private fun displayDetails() {

@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+
 class HomePageActivity : AppCompatActivity() {
 
-    private val dbHandler = DBHelper(this)
-
-    private lateinit var carParkingAdapter: CarParkingAdapter
-    private var carViewModel = HomePageViewModel(dbHandler)
+    private lateinit var carListAdapter: CarParkingAdapter
+    private lateinit var carViewModel : HomePageViewModel
+    private lateinit var rvCarList : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_page)
@@ -30,22 +30,27 @@ class HomePageActivity : AppCompatActivity() {
         }
 
         val rvInterfaceInstance: CarParkingInterface = object : CarParkingInterface {
-            override fun onClick(car: Car) {
+            override fun passData(car: Car) {
                 val checkOutFragment = CheckOutDialogFragment()
                 val bundle = Bundle()
                 bundle.putParcelable(Constants.carDetails, car)
                 checkOutFragment.arguments = bundle
                 checkOutFragment.show(supportFragmentManager, Constants.test)
-                carViewModel.removeCar(car)
+                carViewModel.removeCarDetails(car)
+                sendCarDetailsToAdapter()
             }
         }
-        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        carParkingAdapter = CarParkingAdapter(rvInterfaceInstance)
-        recyclerView.adapter = carParkingAdapter
+        rvCarList = findViewById(R.id.recycler_view)
+        carListAdapter = CarParkingAdapter(rvInterfaceInstance)
+        rvCarList.adapter = carListAdapter
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
-        recyclerView.layoutManager = layoutManager
-        carParkingAdapter.setCarList(carViewModel.sendCarDetailsToAdapter())
+        rvCarList.layoutManager = layoutManager
+        sendCarDetailsToAdapter()
+    }
+
+    private fun sendCarDetailsToAdapter() {
+        carListAdapter.setCarList(carViewModel.getCarDetails())
     }
 
     private val resultLauncher = registerForActivityResult(
@@ -58,6 +63,7 @@ class HomePageActivity : AppCompatActivity() {
             val checkInDateTime = System.currentTimeMillis()
             val carDetails = Car(carNumber, mobileNumber, slotNumber = 0, checkInDateTime)
             carViewModel.addCarDetails(carDetails)
+            sendCarDetailsToAdapter()
         }
     }
 }
