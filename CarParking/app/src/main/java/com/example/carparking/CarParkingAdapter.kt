@@ -12,7 +12,7 @@ import java.util.Locale
 class CarParkingAdapter(
     private val carParkingInterface: CarParkingInterface
 ) : RecyclerView.Adapter<CarParkingAdapter.ViewHolder>() {
-    private var carDetailLists: MutableList<Car> = mutableListOf()
+    private var carDetailLists: List<Car> = mutableListOf()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvCarNumber: TextView = view.findViewById(R.id.show_car_number)
@@ -49,7 +49,7 @@ class CarParkingAdapter(
         return date.format(checkIn)
     }
 
-    fun setCarList(carDetailList: MutableList<Car>) {
+    fun setCarList(carDetailList: List<Car>) {
         this.carDetailLists = carDetailList
         notifyDataSetChanged()
     }

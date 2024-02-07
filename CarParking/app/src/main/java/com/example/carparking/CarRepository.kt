@@ -5,10 +5,11 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-
-class CarRepository(context: Context) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class CarRepository(private val context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION), CarInterface {
 
     companion object {
         private const val DATABASE_NAME = "CAR_PARKING"
@@ -47,7 +48,7 @@ class CarRepository(context: Context) :
     }
 
     @SuppressLint("Recycle")
-    fun getCarDetailsBySlotNumber(): MutableList<Car> {
+    suspend fun getCarDetailsBySlotNumber(): MutableList<Car> {
         val carDetailList = mutableListOf<Car>()
         val dbCarDetails = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME ORDER BY $SLOT_NUMBER"
@@ -67,25 +68,29 @@ class CarRepository(context: Context) :
         return carDetailList
     }
 
-    fun removeCarDetailsBySlotNumber(slotNumber: Int?) {
-        val dbCarDetails = this.writableDatabase
+     fun removeCarDetailsBySlotNumber(slotNumber: Int?) {
+        val dbCarDetails = CarRepository(context).writableDatabase
         dbCarDetails.delete(TABLE_NAME, "$SLOT_NUMBER =$slotNumber", null)
         dbCarDetails.close()
     }
 
-    @SuppressLint("Recycle")
-    fun readCarSlotNumber(): MutableList<Int> {
+
+     fun readCarSlotNumber(): MutableList<Int> {
         val carSlotNumberList = mutableListOf<Int>()
-        val dbCarDetails = this.readableDatabase
+        val dbCarDetails = CarRepository(context).readableDatabase
         val query = "SELECT $SLOT_NUMBER FROM $TABLE_NAME ORDER BY $SLOT_NUMBER ASC"
         val result = dbCarDetails.rawQuery(query, null)
+//        println("===============================================result${result.count}")
         if (result.moveToFirst()) {
             do {
                 val slotNumber = result.getString(result.getColumnIndexOrThrow(SLOT_NUMBER)).toInt()
+//                println("-----------------------------slotnumber$slotNumber")
                 carSlotNumberList.add(slotNumber)
             } while (result.moveToNext())
         }
+//        println("==============================${carSlotNumberList.size}")
         dbCarDetails.close()
         return carSlotNumberList
     }
+
 }
