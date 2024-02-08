@@ -15,6 +15,7 @@ class CarDetailsActivity : AppCompatActivity() {
     private lateinit var etMobileNumber: TextInputEditText
     private lateinit var btnCheckIn: Button
     private var isAllFieldsChecked: Boolean = false
+    private lateinit var carViewModel: CarDetailsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_car_details)
@@ -37,13 +38,11 @@ class CarDetailsActivity : AppCompatActivity() {
         btnCheckIn.setOnClickListener {
             val carNumber = etCarNumber.text.toString()
             val mobileNumber = etMobileNumber.text.toString()
+            val checkInTime = System.currentTimeMillis()
             isAllFieldsChecked = checkAllFields(carNumber, mobileNumber)
-            val intent = Intent()
             if (isAllFieldsChecked) {
-                intent.putExtra(Constants.carNumber, carNumber)
-                intent.putExtra(Constants.mobileNumber, mobileNumber)
-                setResult(RESULT_OK, intent)
-                finish()
+                val carDetails = Car(carNumber, mobileNumber, slotNumber = 0, checkInTime)
+                carViewModel.addCarDetails(carDetails)
             }
         }
     }
