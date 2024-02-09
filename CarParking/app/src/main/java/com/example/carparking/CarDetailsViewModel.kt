@@ -11,13 +11,12 @@ import kotlinx.coroutines.launch
 
 class CarDetailsViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val userItemLiveData = MutableLiveData<List<Car>>()
     private var carListRepository: CarRepository
 
     init {
         carListRepository = CarRepository(application)
     }
-    fun addCarDetails(carDetails: Car) {
+    fun insertCarDetails(carDetails: Car) {
         viewModelScope.launch(Dispatchers.IO) {
             val nax = getNextAvailableSlot()
             carDetails.slotNumber = nax

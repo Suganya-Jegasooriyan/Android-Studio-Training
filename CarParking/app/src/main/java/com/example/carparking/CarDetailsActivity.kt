@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class CarDetailsActivity : AppCompatActivity() {
+
     private lateinit var tilCarNumber: TextInputLayout
     private lateinit var etCarNumber: TextInputEditText
     private lateinit var tilMobileNumber: TextInputLayout
@@ -19,8 +21,9 @@ class CarDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_car_details)
+        carViewModel = ViewModelProvider(this)[CarDetailsViewModel::class.java]
         initView()
-        displayDetails()
+        addCarDetails()
     }
 
     private fun initView() {
@@ -34,15 +37,18 @@ class CarDetailsActivity : AppCompatActivity() {
         btnCheckIn = findViewById(R.id.Check_In_Button)
     }
 
-    private fun displayDetails() {
+    private fun addCarDetails() {
         btnCheckIn.setOnClickListener {
             val carNumber = etCarNumber.text.toString()
             val mobileNumber = etMobileNumber.text.toString()
             val checkInTime = System.currentTimeMillis()
+            val slotNumber = 0
             isAllFieldsChecked = checkAllFields(carNumber, mobileNumber)
             if (isAllFieldsChecked) {
-                val carDetails = Car(carNumber, mobileNumber, slotNumber = 0, checkInTime)
-                carViewModel.addCarDetails(carDetails)
+                val carDetails = Car(carNumber, mobileNumber, slotNumber, checkInTime)
+                carViewModel.insertCarDetails(carDetails)
+                setResult(RESULT_OK, intent)
+                finish()
             }
         }
     }

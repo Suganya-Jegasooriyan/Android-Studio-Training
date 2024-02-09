@@ -18,29 +18,11 @@ class HomePageViewModel(application: Application) : AndroidViewModel(application
         carListRepository = CarRepository(application)
     }
 
-//    fun addCarDetails(carDetails: Car) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val nax = getNextAvailableSlot()
-//            carDetails.slotNumber = nax
-//            carListRepository.insertCarDetails(carDetails)
-//        }
-//        setCarLiveData()
-//    }
-
     fun setCarLiveData() {
         viewModelScope.launch(Dispatchers.IO) {
             userItemLiveData.postValue(carListRepository.getCarDetailsBySlotNumber())
         }
-
     }
-
-//    private suspend fun getNextAvailableSlot(): Int {
-//        val carSlotNumberList = carListRepository.readCarSlotNumber()!!
-//        carSlotNumberList.forEachIndexed { index, slotNumber ->
-//            if (slotNumber != index + 1) return index + 1
-//        }
-//        return carSlotNumberList.size + 1
-//    }
 
     fun getCarDetails(): MutableLiveData<List<Car>> {
         return userItemLiveData
@@ -52,6 +34,5 @@ class HomePageViewModel(application: Application) : AndroidViewModel(application
             carListRepository.removeCarDetailsBySlotNumber(slotNumber)
             setCarLiveData()
         }
-
     }
 }

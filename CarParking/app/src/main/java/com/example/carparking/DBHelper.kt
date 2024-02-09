@@ -28,13 +28,15 @@ class DBHelper private constructor(context: Context) : SQLiteOpenHelper(context,
         private const val MOBILE_NUMBER = "mobileNumber"
         private const val SLOT_NUMBER = "slotNumber"
         private const val CHECK_IN = "checkIn"
+        private const val ID ="id"
         private var INSTANCE : DBHelper? = null
     }
     override fun onCreate(db: SQLiteDatabase?) {
         val query = ("CREATE TABLE " + TABLE_NAME + " ("
+                + ID + "INTEGER PRIMARY KEY,"
                 + CAR_NUMBER + " TEXT , " +
                 MOBILE_NUMBER + " INTEGER," +
-                SLOT_NUMBER + " INTEGER PRIMARY KEY," +
+                SLOT_NUMBER + " INTEGER," +
                 CHECK_IN + " LONG" + ")")
         db?.execSQL(query)
     }
